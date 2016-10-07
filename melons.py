@@ -1,12 +1,20 @@
 import random
+import cs1graphics as cg
 import datetime
 """This file should have our order classes in it."""
+
+
+class TooManyMelonsError(ValueError):
+    """ Value Error"""
+
 
 
 class AbstractMelonOrder(object):
 
     def __init__(self, species, qty, tax, order_type):
         self.species = species
+        if qty > 100:
+            raise TooManyMelonsError('You have entered %s melons. Do not exceed 100' % (qty))
         self.qty = qty
         self.shipped = False
         self.tax = tax
@@ -31,7 +39,8 @@ class AbstractMelonOrder(object):
         base_price = random.randint(5, 9)
         hour = self.order_datetime.time().hour
         day = self.order_datetime.date().weekday()
-        if hour > 8 and hour < 11 and day between 0 and 4 then we add 4 doll
+        if hour >= 8 and hour < 11 and day < 5:
+            base_price += 4
 
         return base_price
 
@@ -77,3 +86,12 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
     def mark_inspection(self, passed):
         self.passed_inspection = passed
+
+icon = cg.Canvas()
+icon.setWidth(300)
+icon.setHeight(300)
+icon.setBackgroundColor("black")
+sq_border = cg.Square(280, cg.Point(150, 150))
+sq_border.setBorderWidth(5)
+sq_border.setBorderColor('white')
+icon.add(sq_border)
